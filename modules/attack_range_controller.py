@@ -18,6 +18,10 @@ class AttackRangeController(abc.ABC):
         pass
 
     @abc.abstractmethod
+    def plan(self) -> None:
+        pass
+
+    @abc.abstractmethod
     def destroy(self) -> None:
         pass
 

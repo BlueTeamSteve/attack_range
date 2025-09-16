@@ -94,6 +94,27 @@ class AzureController(AttackRangeController):
 
         self.show()
 
+    def plan(self) -> None:
+        self.logger.info("[action] > plan\n")
+        cwd = os.getcwd()
+        os.system(
+            "cd "
+            + os.path.join(os.path.dirname(__file__), "../terraform/azure")
+            + "&& terraform init"
+        )
+        os.system("cd " + cwd)
+
+        return_code, stdout, stderr = self.terraform.plan(
+            capture_output="yes", no_color=IsNotFlagged
+        )
+
+        if return_code == 0:
+            self.logger.info("terraform plan completed successfully")
+            print(stdout)
+        else:
+            self.logger.error("terraform plan failed")
+            print(stderr)
+
     def destroy(self) -> None:
         self.logger.info("[action] > destroy\n")
         return_code, stdout, stderr = self.terraform.destroy(

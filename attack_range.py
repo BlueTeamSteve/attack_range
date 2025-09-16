@@ -88,6 +88,11 @@ def build(args):
     controller.build()
 
 
+def plan(args):
+    controller = init(args)
+    controller.plan()
+
+
 def destroy(args):
     controller = init(args)
     controller.destroy()
@@ -174,6 +179,9 @@ def main(args):
     build_parser = actions_parser.add_parser(
         "build", help="builds attack range instances"
     )
+    plan_parser = actions_parser.add_parser(
+        "plan", help="shows terraform plan for attack range instances"
+    )
     simulate_parser = actions_parser.add_parser(
         "simulate", help="simulates attack techniques"
     )
@@ -207,6 +215,9 @@ def main(args):
 
     # Build arguments
     build_parser.set_defaults(func=build)
+
+    # Plan arguments
+    plan_parser.set_defaults(func=plan)
 
     # Destroy arguments
     destroy_parser.set_defaults(func=destroy)
