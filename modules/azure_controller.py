@@ -109,11 +109,14 @@ class AzureController(AttackRangeController):
         )
 
         if return_code == 0:
-            self.logger.info("terraform plan completed successfully")
-            print(stdout)
+            self.logger.info("terraform plan completed successfully with no changes required")
+            print(stdout) if stdout else None
+        elif return_code == 2:
+            self.logger.info("terraform plan will make changes!")
+            print(stdout) if stdout else None
         else:
-            self.logger.error("terraform plan failed")
-            print(stderr)
+            self.logger.error("terraform failed with an error")
+            print(stderr) if stderr else None
 
     def destroy(self) -> None:
         self.logger.info("[action] > destroy\n")
